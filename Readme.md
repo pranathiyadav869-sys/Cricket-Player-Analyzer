@@ -167,6 +167,13 @@ http://127.0.0.1:5000
 
 (
 <img width="624" height="447" alt="Screenshot 2026-04-19 at 1 19 19 PM" src="https://github.com/user-attachments/assets/649aa91a-3607-46ce-91eb-db97a5219492" />
+<img width="820" height="487" alt="Screenshot 2026-04-19 at 1 20 14 PM" src="https://github.com/user-attachments/assets/adf157e3-84e2-493d-942e-92ec84eefb5b" />
+<img width="1672" height="1634" alt="Image 25-04-2026 at 2 03 PM" src="https://github.com/user-attachments/assets/35e6af51-6e8f-4952-9ddc-ef656bcb8aea" />
+<img width="1588" height="1346" alt="Image 25-04-2026 at 2 04 PM" src="https://github.com/user-attachments/assets/29a643ba-9b15-456a-bff7-a3f66b7befe0" />
+<img width="1503" height="1222" alt="Image 25-04-2026 at 2 05 PM (1)" src="https://github.com/user-attachments/assets/eed6ff57-0df1-4e9f-958e-a4eaeb881b7a" />
+<img width="1313" height="714" alt="Image 25-04-2026 at 2 06 PM" src="https://github.com/user-attachments/assets/e31c777a-9cf2-4715-971d-066ac2fd404a" />
+
+
 <img width="1365" height="1319" alt="Image 25-04-2026 at 2 08 PM" src="https://github.com/user-attachments/assets/62d9bf10-f886-41d5-8d09-c48d90c6c58f" />
 
 )
