@@ -165,7 +165,9 @@ http://127.0.0.1:5000
 
 ## 📸 Screenshots
 
-(Add your UI screenshots here)
+(<img width="1437" height="819" alt="Screenshot 2025-10-29 at 9 46 21 PM" src="https://github.com/user-attachments/assets/513e6f76-d528-4bc7-95e5-925eae88f435" />
+
+)
 
 ---
 
