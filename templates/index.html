@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Player Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+</head>
+<body>
+    <header>
+        <h1>🏏 Cricket Player Analyzer</h1>
+    </header>
+
+    <div class="tabs">
+        <input type="radio" name="tab-group" id="tab-analyze" checked>
+        <label for="tab-analyze">Add & Analyze Player</label>
+        <div class="tab-content" id="content-analyze">
+            <h2>Add New Player Data</h2>
+            <form id="analyze-form">
+                <div class="input-group">
+                    <label>Player Name</label><input type="text" name="player_name" required>
+                    <label>Matches Played</label><input type="number" name="matches" value="0">
+                    <label>Batting Innings</label><input type="number" name="bat_innings" value="0">
+                    <label>Batting Runs</label><input type="number" name="bat_runs" value="0">
+                    <label>Highest Score</label><input type="number" name="high_score" value="0">
+                    <label>Batting Average</label><input type="number" step="0.01" name="bat_avg" value="0.0">
+                    <label>Batting SR</label><input type="number" step="0.01" name="bat_sr" value="0.0">
+                    <label>50s</label><input type="number" name="fifties" value="0">
+                    <label>100s</label><input type="number" name="hundreds" value="0">
+                    <label>Bowling Innings</label><input type="number" name="bowl_innings" value="0">
+                    <label>Overs (e.g. 10.3)</label><input type="number" step="0.1" name="overs" value="0.0">
+                    <label>Wickets</label><input type="number" name="wickets" value="0">
+                    <label>Economy Rate</label><input type="number" step="0.01" name="econ" value="0.0">
+                    <label>Bowling SR</label><input type="number" step="0.01" name="bowl_sr" value="0.0">
+                    <label>Recent Batting Scores (comma-separated)</label><input type="text" name="recent_bat_scores_str" placeholder="20, 55, 10">
+                    <label>Recent Bowling Figures (w/r, comma-separated)</label><input type="text" name="recent_bowl_figs_str" placeholder="1/30, 2/25">
+                </div>
+                <button type="submit">Save & Analyze</button>
+            </form>
+            
+            <div class="results-area">
+                <h3>Analysis Results</h3>
+                <p id="analyze-status" class="status"></p>
+                <div class="metrics">
+                    <p>Predicted Role: <span id="out-role">--</span></p>
+                    <p>Performance Score: <span id="out-perf">--</span></p>
+                    <p>Batting Consistency: <span id="out-bat-cons">--</span></p>
+                    <p>Bowling Consistency: <span id="out-bowl-cons">--</span></p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="analyzeRadarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <input type="radio" name="tab-group" id="tab-view">
+        <label for="tab-view">View Player</label>
+        <div class="tab-content" id="content-view">
+            <h2>View Player Details</h2>
+            <label for="view-select">Select Player</label>
+            <select id="view-select">
+                <option value="">-- Select --</option>
+            </select>
+
+            <div class="results-area">
+                <h3>Player Summary: <span id="view-player-name">--</span></h3>
+                <div class="view-details">
+                    <pre id="view-stats-text"></pre>
+                    <div class="metrics-view">
+                        <p>Performance Score: <span id="view-perf">--</span></p>
+                        <p>Batting Consistency: <span id="view-bat-cons">--</span></p>
+                        <p>Bowling Consistency: <span id="view-bowl-cons">--</span></p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="viewRadarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <input type="radio" name="tab-group" id="tab-compare">
+        <label for="tab-compare">Compare Players</label>
+        <div class="tab-content" id="content-compare">
+            <h2>Player Comparison</h2>
+            <div class="comparison-selectors">
+                <label for="compare-select1">Player 1</label>
+                <select id="compare-select1">
+                    <option value="">-- Select --</option>
+                </select>
+
+                <label for="compare-select2">Player 2</label>
+                <select id="compare-select2">
+                    <option value="">-- Select --</option>
+                </select>
+                <button id="compare-btn-all">Compare All Metrics</button>
+            </div>
+
+            <div class="results-area">
+                <h3>Comparison Radar</h3>
+                <div class="chart-container">
+                    <canvas id="compareRadarChart"></canvas>
+                </div>
+                <h3>Detailed Comparison Summary</h3>
+                <pre id="compare-summary-all"></pre>
+            </div>
+        </div>
+        
+        <input type="radio" name="tab-group" id="tab-leaderboard">
+        <label for="tab-leaderboard">Leaderboard</label>
+        <div class="tab-content" id="content-leaderboard">
+            <h2>Role-Based Leaderboard</h2>
+            <div class="results-area">
+                <label for="leaderboard-role">Select Role:</label>
+                <select id="leaderboard-role">
+                    <option value="">-- Select Role --</option>
+                    <option value="Batsman">Batsman</option>
+                    <option value="Bowler">Bowler</option>
+                    <option value="Allrounder">Allrounder</option>
+                </select>
+
+                <div id="leaderboard-container">
+                    <p>Please select a role to view the top players.</p>
+                </div>
+            </div>
+        </div>
+        
+        <input type="radio" name="tab-group" id="tab-balance">
+        <label for="tab-balance">Team Balance Analyzer</label>
+        <div class="tab-content" id="content-balance">
+            <h2>Evaluate Team Balance (11 Players)</h2>
+            <p>Select exactly 11 players to check the team's composition against the ideal standard (4 Batsmen, 3 Bowlers, 4 All-Rounders, 1 Wicketkeeper).</p>
+            
+            <form id="balance-form">
+                <div style="display: flex; flex-direction: column; max-height: 300px; overflow-y: auto; padding: 10px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;">
+                    <p style="font-weight: bold; color: #bbdefb;">Select 11 Players:</p>
+                    <div id="balance-player-list" class="input-group" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        </div>
+                </div>
+                <button type="submit" style="margin-top: 20px;">Analyze 11-Man Team Balance</button>
+            </form>
+
+            <div class="results-area">
+                <h3>Analysis Results</h3>
+                <p id="balance-status" class="status"></p>
+                <div id="balance-results-box" class="metrics" style="flex-direction: column; align-items: flex-start; display: none;">
+                    <p>Team Balance Rating: <span id="balance-rating" style="font-size: 1.2em; color: #4dd0e1;">--</span></p>
+                    <p>Composition: </p>
+                    <ul>
+                        <li>🏏 Batsmen: <span id="balance-batsmen">--</span></li>
+                        <li>🎯 Bowlers: <span id="balance-bowlers">--</span></li>
+                        <li>⚡ All-Rounders: <span id="balance-allrounders">--</span></li>
+                        <li>🧤 Wicketkeeper: <span id="balance-wk">--</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <input type="radio" name="tab-group" id="tab-teams">
+        <label for="tab-teams">Team Generator</label>
+        <div class="tab-content" id="content-teams">
+            <h2>Generate The Best Team (11 Players)</h2>
+            <div class="comparison-selectors" style="margin-bottom: 30px;">
+                <button id="generate-teams-btn-all" style="flex: 1;">Generate Best Team from ALL Registered Players</button>
+                <button id="show-selection-btn" style="flex: 1; background: #ff9800; border-color: #ff9800;">Generate Best Team from SELECTION Pool</button>
+            </div>
+
+            <div id="selection-mode-div" style="border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 20px; margin-bottom: 20px; display: none;">
+                <h3>Select Players for Custom Pool:</h3>
+                <p>Choose 11 or more players. The system will select the single best 11-man team from your choices.</p>
+                <form id="selection-form">
+                    <div style="max-height: 200px; overflow-y: auto; padding: 10px;">
+                        <div id="selection-player-list" class="input-group" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            </div>
+                    </div>
+                    <button type="submit" style="margin-top: 15px;">Generate Best Team from Selected</button>
+                </form>
+            </div>
+
+            <div class="results-area">
+                <p id="team-status" class="status"></p>
+                
+                <div id="single-team-container" style="display: flex; justify-content: center; margin-top: 30px;">
+                    <div id="best-team-output" class="team-panel" style="width: 60%; min-width: 300px;">
+                        <h3 style="text-align: center;">Best Team Generated!</h3>
+                        <p style="text-align: center; font-size: 1.1em;">Balance: <span id="best-team-rating">--</span> | Score: <span id="best-team-total-perf">--</span></p>
+                        <p style="text-align: center;">Composition (B|W|A|WK): <span id="best-team-comp">--</span></p>
+                        <table class="leaderboard-table">
+                            <thead><tr><th>Name</th><th>Role</th><th>Score</th></tr></thead>
+                            <tbody id="best-team-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
