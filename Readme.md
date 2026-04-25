@@ -165,7 +165,9 @@ http://127.0.0.1:5000
 
 ## 📸 Screenshots
 
-(<img width="1437" height="819" alt="Screenshot 2025-10-29 at 9 46 21 PM" src="https://github.com/user-attachments/assets/513e6f76-d528-4bc7-95e5-925eae88f435" />
+(
+<img width="624" height="447" alt="Screenshot 2026-04-19 at 1 19 19 PM" src="https://github.com/user-attachments/assets/649aa91a-3607-46ce-91eb-db97a5219492" />
+<img width="1365" height="1319" alt="Image 25-04-2026 at 2 08 PM" src="https://github.com/user-attachments/assets/62d9bf10-f886-41d5-8d09-c48d90c6c58f" />
 
 )
 
